@@ -15,9 +15,11 @@ jobs:
         platform:
           - linux/amd64
           - linux/arm64
-          - linux/386
-          - linux/arm/v7
-          - linux/arm/v6
+
+          # https://github.com/rust-lang/docker-rust/issues/142
+          # - linux/386
+          # - linux/arm/v7
+          # - linux/arm/v6
     steps:
       - name: Prepare
         run: |
@@ -52,7 +54,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=${{ github.event_name != 'pull_request' }},name-canonical=true,push=${{ github.event_name != 'pull_request' }}
           build-args: |
             ARTI_VERSION=${{ env.ARTI_VERSION }}
             OBFS4_VERSION=${{ env.OBFS4_VERSION }}
