@@ -6,6 +6,10 @@ on:
 env:
   REGISTRY_IMAGE: severecloud/arti
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
