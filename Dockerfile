@@ -1,0 +1,59 @@
+FROM rust:1.75.0-alpine AS rust_builder
+
+RUN <<EOT
+  apk --no-cache --no-progress update
+  apk --no-cache --no-progress add musl-dev openssl-dev sqlite-dev git
+EOT
+
+ENV RUSTFLAGS="-Ctarget-feature=-crt-static"
+
+WORKDIR /usr/src/arti
+
+RUN git clone -b ${ARTI_VERSION:-main} --single-branch --depth 1 https://gitlab.torproject.org/tpo/core/arti.git .
+RUN cargo build -p arti --release
+
+FROM golang:1.21.6-alpine AS go_builder
+
+RUN <<EOT
+  apk --no-cache --no-progress update
+  apk --no-cache --no-progress add git
+EOT
+
+# Install obfs4proxy and snowflake
+RUN go install gitlab.com/yawning/obfs4.git/obfs4proxy@${OBFS4_VERSION:-latest}
+RUN go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/v2/client@${SNOWFLAKE_VERSION:-latest}
+
+
+FROM alpine:3.19.0
+
+COPY --from=go_builder /go/bin/obfs4proxy /usr/bin/obfs4proxy
+COPY --from=go_builder /go/bin/client /usr/bin/snowflake-client
+COPY --from=rust_builder /usr/src/arti/target/release/arti /usr/bin/arti
+
+RUN <<EOT
+  apk --no-cache --no-progress update
+  apk --no-cache --no-progress add curl sqlite-libs libgcc
+EOT
+
+COPY arti.proxy.toml /home/arti/.config/arti/arti.d/
+
+RUN adduser \
+  --disabled-password \
+  --home "/home/arti/" \
+  --gecos "" \
+  --shell "/sbin/nologin" \
+  arti
+USER arti
+
+HEALTHCHECK --interval=5m --timeout=15s --start-period=20s \
+  CMD curl -s --socks5-hostname localhost:9150 'https://check.torproject.org/' | \
+  grep -qm1 Congratulations
+
+# Cache information and persistent state
+RUN mkdir -p /home/arti/.cache/arti/ /home/arti/.local/share/arti/
+VOLUME [ "/home/arti/.cache/arti/" "/home/arti/.local/share/arti/" ]
+
+EXPOSE 9150
+
+ENTRYPOINT [ "arti" ]
+CMD [ "proxy" ]
