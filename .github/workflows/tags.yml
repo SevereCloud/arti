@@ -43,3 +43,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            ARTI_VERSION=${{ env.ARTI_VERSION }}
+            OBFS4_VERSION=${{ env.OBFS4_VERSION }}
+            SNOWFLAKE_VERSION=${{ env.SNOWFLAKE_VERSION }}

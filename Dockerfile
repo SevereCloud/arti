@@ -9,7 +9,9 @@ ENV RUSTFLAGS="-Ctarget-feature=-crt-static"
 
 WORKDIR /usr/src/arti
 
-RUN git clone -b ${ARTI_VERSION:-main} --single-branch --depth 1 https://gitlab.torproject.org/tpo/core/arti.git .
+ARG ARTI_VERSION=main
+RUN git clone -b $ARTI_VERSION --single-branch --depth 1 https://gitlab.torproject.org/tpo/core/arti.git .
+
 RUN cargo build -p arti --release
 
 FROM golang:1.21.6-alpine AS go_builder
@@ -20,8 +22,10 @@ RUN <<EOT
 EOT
 
 # Install obfs4proxy and snowflake
-RUN go install gitlab.com/yawning/obfs4.git/obfs4proxy@${OBFS4_VERSION:-latest}
-RUN go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/v2/client@${SNOWFLAKE_VERSION:-latest}
+ARG OBFS4_VERSION=latest
+ARG SNOWFLAKE_VERSION=latest
+RUN go install gitlab.com/yawning/obfs4.git/obfs4proxy@$OBFS4_VERSION
+RUN go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/v2/client@$SNOWFLAKE_VERSION
 
 
 FROM alpine:3.19.0
