@@ -1,8 +1,8 @@
-FROM rust:1.75.0-alpine AS rust_builder
+FROM alpine:3.19.0 AS rust_builder
 
 RUN <<EOT
   apk --no-cache --no-progress update
-  apk --no-cache --no-progress add musl-dev openssl-dev sqlite-dev git
+  apk --no-cache --no-progress add rust cargo musl-dev openssl-dev sqlite-dev git
 EOT
 
 ENV RUSTFLAGS="-Ctarget-feature=-crt-static"

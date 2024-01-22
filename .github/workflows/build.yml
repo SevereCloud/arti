@@ -1,6 +1,9 @@
 name: Build image
 
 on:
+  push:
+    tags:
+      - "v*"
   pull_request:
 
 env:
@@ -19,11 +22,9 @@ jobs:
         platform:
           - linux/amd64
           - linux/arm64
-
-          # https://github.com/rust-lang/docker-rust/issues/142
-          # - linux/386
-          # - linux/arm/v7
-          # - linux/arm/v6
+          - linux/386
+          - linux/arm/v7
+          - linux/arm/v6
     steps:
       - name: Prepare
         run: |
