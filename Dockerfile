@@ -1,7 +1,7 @@
-FROM rust:1.89.0-alpine AS rust_builder
+FROM alpine:3.22.1 AS rust_builder
 
 RUN apk --no-cache --no-progress update
-RUN apk --no-cache --no-progress add musl-dev openssl-dev sqlite-dev git
+RUN apk --no-cache --no-progress add rust cargo musl-dev openssl-dev sqlite-dev git
 
 ENV RUSTFLAGS="-Ctarget-feature=-crt-static"
 
