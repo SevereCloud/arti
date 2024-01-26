@@ -1,0 +1,23 @@
+name: "Update env"
+on:
+  schedule:
+    - cron: "0 10 * * *" # every day at 10:00
+
+jobs:
+  close-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: sh update-env.sh
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: Update env
+          branch: github-actions/build/figma/token-updates
+          commit-message: "feat: update env"
+          body: Automated update env
