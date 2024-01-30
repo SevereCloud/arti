@@ -47,3 +47,10 @@ jobs:
             ARTI_VERSION=${{ env.ARTI_VERSION }}
             OBFS4_VERSION=${{ env.OBFS4_VERSION }}
             SNOWFLAKE_VERSION=${{ env.SNOWFLAKE_VERSION }}
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/arti
