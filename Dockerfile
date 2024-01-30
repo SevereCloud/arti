@@ -28,7 +28,7 @@ RUN go install gitlab.com/yawning/obfs4.git/obfs4proxy@$OBFS4_VERSION
 RUN go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/v2/client@$SNOWFLAKE_VERSION
 
 
-FROM alpine:3.19.0
+FROM alpine:3.19.1
 
 COPY --from=go_builder /go/bin/obfs4proxy /usr/bin/obfs4proxy
 COPY --from=go_builder /go/bin/client /usr/bin/snowflake-client
