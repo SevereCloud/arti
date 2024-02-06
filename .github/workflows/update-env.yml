@@ -4,11 +4,12 @@ on:
     - cron: "0 10 * * *" # every day at 10:00
 
 jobs:
-  close-issues:
+  update-env:
     runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
