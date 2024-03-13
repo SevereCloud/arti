@@ -1,6 +1,6 @@
 # arti in Docker
 
-With snowflake and obfs4proxy.
+With snowflake, obfs4proxy and webtunnel.
 
 ## Use
 
@@ -66,7 +66,8 @@ obfs4 bridge.example.net:80 $0bac39417268b69b9f514e7f63fa6fba1a788958 ed25519:dG
 [[bridges.transports]]
 protocols = ["obfs4"]
 path = "/usr/bin/obfs4proxy"
-arguments = ["-enableLogging", "-logLevel", "DEBUG"]
+#arguments = ["-enableLogging", "-logLevel", "DEBUG"]
+arguments = []
 run_on_startup = false
 ```
 
@@ -84,6 +85,25 @@ snowflake 192.0.2.3:80 2B280B23E1107BB62ABFC40DDCC8824814F80A72 fingerprint=2B28
 [[bridges.transports]]
 protocols = ["snowflake"]
 path = "/usr/bin/snowflake-client"
-arguments = ["-log-to-state-dir", "-log", "snowflake.log"]
+#arguments = ["-log-to-state-dir", "-log", "snowflake.log"]
+arguments = []
+run_on_startup = false
+```
+
+#### webtunnel
+
+```toml
+[bridges]
+enabled = true
+
+# For example:
+bridges = '''
+webtunnel 192.0.2.3:1 url=https://akbwadp9lc5fyyz0cj4d76z643pxgbfh6oyc-167-71-71-157.sslip.io/5m9yq0j4ghkz0fz7qmuw58cvbjon0ebnrsp0
+'''
+
+[[bridges.transports]]
+protocols = ["webtunnel"]
+path = "/usr/bin/webtunnel-client"
+arguments = []
 run_on_startup = false
 ```

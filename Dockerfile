@@ -21,17 +21,28 @@ RUN <<EOT
   apk --no-cache --no-progress add git
 EOT
 
-# Install obfs4proxy and snowflake
+# Install obfs4proxy, snowflake and webtunnel
 ARG OBFS4_VERSION=latest
 ARG SNOWFLAKE_VERSION=latest
-RUN go install gitlab.com/yawning/obfs4.git/obfs4proxy@$OBFS4_VERSION
-RUN go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/v2/client@$SNOWFLAKE_VERSION
+ARG WEBTUNNEL_VERSION=latest
 
+RUN go install gitlab.com/yawning/obfs4.git/obfs4proxy@$OBFS4_VERSION
+
+RUN <<EOT
+  go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/v2/client@$SNOWFLAKE_VERSION
+  mv /go/bin/client /go/bin/snowflake-client
+EOT
+
+RUN <<EOT
+  go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/webtunnel/main/client@$WEBTUNNEL_VERSION
+  mv /go/bin/client /go/bin/webtunnel-client
+EOT
 
 FROM alpine:3.19.1
 
 COPY --from=go_builder /go/bin/obfs4proxy /usr/bin/obfs4proxy
-COPY --from=go_builder /go/bin/client /usr/bin/snowflake-client
+COPY --from=go_builder /go/bin/snowflake-client /usr/bin/snowflake-client
+COPY --from=go_builder /go/bin/webtunnel-client /usr/bin/webtunnel-client
 COPY --from=rust_builder /usr/src/arti/target/release/arti /usr/bin/arti
 
 RUN <<EOT
