@@ -14,7 +14,7 @@ RUN git clone -b $ARTI_VERSION --single-branch --depth 1 https://gitlab.torproje
 
 RUN cargo build -p arti --release
 
-FROM golang:1.22.3-alpine AS go_builder
+FROM golang:1.22.4-alpine AS go_builder
 
 RUN <<EOT
   apk --no-cache --no-progress update
