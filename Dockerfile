@@ -1,4 +1,4 @@
-FROM rust:1.78.0-alpine AS rust_builder
+FROM rust:1.79.0-alpine AS rust_builder
 
 RUN <<EOT
   apk --no-cache --no-progress update
