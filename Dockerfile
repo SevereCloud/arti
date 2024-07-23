@@ -38,7 +38,7 @@ RUN <<EOT
   mv /go/bin/client /go/bin/webtunnel-client
 EOT
 
-FROM alpine:3.20.1
+FROM alpine:3.20.2
 
 COPY --from=go_builder /go/bin/obfs4proxy /usr/bin/obfs4proxy
 COPY --from=go_builder /go/bin/snowflake-client /usr/bin/snowflake-client
