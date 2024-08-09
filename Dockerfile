@@ -1,4 +1,4 @@
-FROM rust:1.80.0-alpine AS rust_builder
+FROM rust:1.80.1-alpine AS rust_builder
 
 RUN apk --no-cache --no-progress update
 RUN apk --no-cache --no-progress add musl-dev openssl-dev sqlite-dev git
