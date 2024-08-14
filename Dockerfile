@@ -12,7 +12,7 @@ RUN git clone -b $ARTI_VERSION --single-branch --depth 1 https://gitlab.torproje
 
 RUN cargo build -p arti --release
 
-FROM golang:1.22.6-alpine AS go_builder
+FROM golang:1.23.0-alpine AS go_builder
 
 RUN apk --no-cache --no-progress update
 RUN apk --no-cache --no-progress add git
