@@ -56,7 +56,7 @@ HEALTHCHECK --interval=5m --timeout=15s --start-period=20s \
 
 # Cache information and persistent state
 RUN mkdir -p /home/arti/.cache/arti/ /home/arti/.local/share/arti/
-VOLUME [ "/home/arti/.cache/arti/" "/home/arti/.local/share/arti/" ]
+VOLUME [ "/home/arti/.cache/arti/", "/home/arti/.local/share/arti/" ]
 
 EXPOSE 9150
 
