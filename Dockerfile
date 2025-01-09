@@ -30,7 +30,7 @@ RUN mv /go/bin/client /go/bin/snowflake-client
 RUN go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/webtunnel/main/client@$WEBTUNNEL_VERSION
 RUN mv /go/bin/client /go/bin/webtunnel-client
 
-FROM alpine:3.21.1
+FROM alpine:3.21.2
 
 RUN apk --no-cache --no-progress update
 RUN apk --no-cache --no-progress add curl sqlite-libs libgcc tini
