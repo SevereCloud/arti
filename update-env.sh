@@ -23,7 +23,7 @@ cat <<EOF >.env
 ARTI_VERSION=$(gitlab_get_last_subtag gitlab.torproject.org 647 arti)
 OBFS4_VERSION=$(gitlab_get_last_tag gitlab.com 10387781)
 SNOWFLAKE_VERSION=$(gitlab_get_last_tag gitlab.torproject.org 43)
-WEBTUNNEL_VERSION=e64b1b3562f3ab50d06141ecd513a21ec74fe8c6
+WEBTUNNEL_VERSION=e4d49e1161c99dfc2170a24fcec02ceca867fe5c
 EOF
 
 cat .env
