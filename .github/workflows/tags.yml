@@ -47,6 +47,7 @@ jobs:
             ARTI_VERSION=${{ env.ARTI_VERSION }}
             OBFS4_VERSION=${{ env.OBFS4_VERSION }}
             SNOWFLAKE_VERSION=${{ env.SNOWFLAKE_VERSION }}
+            WEBTUNNEL_VERSION=${{ env.WEBTUNNEL_VERSION }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
