@@ -56,7 +56,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=${{ github.event_name != 'pull_request' }},name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }},name-canonical=true,push=${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }}
           build-args: |
             ARTI_VERSION=${{ env.ARTI_VERSION }}
             OBFS4_VERSION=${{ env.OBFS4_VERSION }}
