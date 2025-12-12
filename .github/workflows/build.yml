@@ -56,9 +56,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           platforms: ${{ matrix.platform }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.REGISTRY_IMAGE }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }},name-canonical=true,push=${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }}
+          outputs: type=image,push-by-digest=${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }},name-canonical=true,push=${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }}
           build-args: |
             ARTI_VERSION=${{ env.ARTI_VERSION }}
             OBFS4_VERSION=${{ env.OBFS4_VERSION }}
