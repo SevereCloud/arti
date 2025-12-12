@@ -26,7 +26,7 @@ services:
   arti:
     container_name: arti
     image: severecloud/arti:latest
-    port:
+    ports:
       - "127.0.0.1:9150:9150"
     # volumes:
     #   - ./arti.toml:/home/arti/.config/arti/arti.toml:ro
