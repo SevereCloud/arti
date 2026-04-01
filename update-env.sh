@@ -22,8 +22,10 @@ gitlab_get_last_subtag() {
 cat <<EOF >.env
 ARTI_VERSION=$(gitlab_get_last_subtag gitlab.torproject.org 647 arti)
 OBFS4_VERSION=$(gitlab_get_last_tag gitlab.com 10387781)
-SNOWFLAKE_VERSION=$(gitlab_get_last_tag gitlab.torproject.org 43)
+SNOWFLAKE_VERSION=v2.11.0
 WEBTUNNEL_VERSION=$(gitlab_get_last_tag gitlab.torproject.org 1674)
 EOF
+
+# FIXME: SNOWFLAKE_VERSION=$(gitlab_get_last_tag gitlab.torproject.org 43)
 
 cat .env
